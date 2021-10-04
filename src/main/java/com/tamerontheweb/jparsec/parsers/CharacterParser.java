@@ -1,18 +1,15 @@
 package com.tamerontheweb.jparsec.parsers;
 
 import com.tamerontheweb.jparsec.Value;
+import lombok.AllArgsConstructor;
 
 import java.util.Optional;
 
+@AllArgsConstructor
 public class CharacterParser implements Parser<Character> {
 
   private final String src;
   private final char needle;
-
-  public CharacterParser(String src, char needle) {
-    this.src = src;
-    this.needle = needle;
-  }
 
   @Override
   public Optional<Value<Character>> parse() {
