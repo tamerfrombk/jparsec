@@ -10,7 +10,7 @@ public class TestStringParser {
 
   @Test
   public void testParser_MatchingSource() {
-    new StringParser("meow", "me").parse()
+    new StringParser("me").parse("meow")
             .ifPresentOrElse(v -> {
               assertEquals("me", v.data);
               assertEquals("ow", v.rest);
@@ -19,12 +19,12 @@ public class TestStringParser {
 
   @Test
   public void testParser_NonMatchingSource() {
-    assertTrue(new StringParser("foo", "m").parse().isEmpty());
+    assertTrue(new StringParser("m").parse("foo").isEmpty());
   }
 
   @Test
   public void testParser_EmptySource() {
-    assertTrue(new StringParser("", "m").parse().isEmpty());
+    assertTrue(new StringParser("m").parse("").isEmpty());
   }
 
 }

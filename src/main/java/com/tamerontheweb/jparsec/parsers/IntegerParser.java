@@ -4,25 +4,26 @@ import com.tamerontheweb.jparsec.Value;
 import lombok.AllArgsConstructor;
 
 import java.util.Optional;
+import java.util.function.Predicate;
 
 @AllArgsConstructor
 public class IntegerParser implements Parser<Integer> {
 
-  private final String src;
-
   @Override
-  public Optional<Value<Integer>> parse() {
+  public Optional<Value<Integer>> parse(String src) {
     if (src.isEmpty()) {
       return Optional.empty();
     }
 
-    if (!isDigitAt(0)) {
+    Predicate<Integer> isDigitAt = i -> Character.isDigit(src.charAt(i));
+
+    if (!isDigitAt.test(0)) {
       return Optional.empty();
     }
 
     int n = 0;
     int digitEnd = 0;
-    while (digitEnd < src.length() && isDigitAt(digitEnd)) {
+    while (digitEnd < src.length() && isDigitAt.test(digitEnd)) {
       char c = src.charAt(digitEnd);
       n *= 10;
       n += c - '0';
@@ -32,7 +33,4 @@ public class IntegerParser implements Parser<Integer> {
     return Optional.of(new Value<>(n, src.substring(digitEnd)));
   }
 
-  private boolean isDigitAt(int i) {
-    return Character.isDigit(src.charAt(i));
-  }
 }

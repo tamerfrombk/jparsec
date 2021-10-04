@@ -13,10 +13,10 @@ public class AlternativeParser<T, U> implements Parser<Pair<Value<T>, Value<U>>>
   private final Parser<U> p2;
 
   @Override
-  public Optional<Value<Pair<Value<T>, Value<U>>>> parse() {
-    return p1.parse()
+  public Optional<Value<Pair<Value<T>, Value<U>>>> parse(String src) {
+    return p1.parse(src)
             .map(this::left)
-            .or(() -> p2.parse().map(this::right));
+            .or(() -> p2.parse(src).map(this::right));
   }
 
   private Value<Pair<Value<T>, Value<U>>> left(Value<T> v) {

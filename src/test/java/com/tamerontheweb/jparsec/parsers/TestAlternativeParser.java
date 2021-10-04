@@ -10,7 +10,7 @@ public class TestAlternativeParser {
 
   @Test
   public void testParser_FirstMatchingSource() {
-    createParser("meow", "me").parse()
+    createParser("me").parse("meow")
             .ifPresentOrElse(v -> {
               assertEquals("me", v.data.first.data);
               assertEquals("ow", v.rest);
@@ -19,7 +19,7 @@ public class TestAlternativeParser {
 
   @Test
   public void testParser_SecondMatchingSource() {
-    createParser("123", "q").parse()
+    createParser("q").parse("123")
             .ifPresentOrElse(v -> {
               assertEquals((Integer) 123, v.data.second.data);
               assertEquals("", v.rest);
@@ -28,17 +28,17 @@ public class TestAlternativeParser {
 
   @Test
   public void testParser_NeitherMatchingSource() {
-    assertTrue(new StringParser("foo", "m").parse().isEmpty());
+    assertTrue(createParser("m").parse("foo").isEmpty());
   }
 
   @Test
   public void testParser_EmptySource() {
-    assertTrue(new StringParser("", "m").parse().isEmpty());
+    assertTrue(createParser("m").parse("").isEmpty());
   }
 
-  private AlternativeParser<String, Integer> createParser(String source, String needle) {
-    Parser<String> p1 = new StringParser(source, needle);
-    Parser<Integer> p2 = new IntegerParser(source);
+  private AlternativeParser<String, Integer> createParser(String needle) {
+    Parser<String> p1 = new StringParser(needle);
+    Parser<Integer> p2 = new IntegerParser();
 
     return new AlternativeParser<>(p1, p2);
   }

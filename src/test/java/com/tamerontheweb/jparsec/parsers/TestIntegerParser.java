@@ -10,7 +10,7 @@ public class TestIntegerParser {
 
   @Test
   public void testParser_MatchingSource() {
-    new IntegerParser("12a").parse()
+    new IntegerParser().parse("12a")
             .ifPresentOrElse(v -> {
               assertEquals((Integer) 12, v.data);
               assertEquals("a", v.rest);
@@ -19,7 +19,7 @@ public class TestIntegerParser {
 
   @Test
   public void testParser_AllMatchingSource() {
-    new IntegerParser("12").parse()
+    new IntegerParser().parse("12")
             .ifPresentOrElse(v -> {
               assertEquals((Integer) 12, v.data);
               assertEquals("", v.rest);
@@ -28,12 +28,12 @@ public class TestIntegerParser {
 
   @Test
   public void testParser_NonMatchingSource() {
-    assertTrue(new IntegerParser("foo").parse().isEmpty());
+    assertTrue(new IntegerParser().parse("foo").isEmpty());
   }
 
   @Test
   public void testParser_EmptySource() {
-    assertTrue(new IntegerParser("").parse().isEmpty());
+    assertTrue(new IntegerParser().parse("").isEmpty());
   }
 
 }

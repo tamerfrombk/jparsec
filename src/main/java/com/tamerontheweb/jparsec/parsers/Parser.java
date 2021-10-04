@@ -7,6 +7,6 @@ import java.util.Optional;
 @FunctionalInterface
 public interface Parser<T> {
 
-  Optional<Value<T>> parse();
+  Optional<Value<T>> parse(String source);
 
 }

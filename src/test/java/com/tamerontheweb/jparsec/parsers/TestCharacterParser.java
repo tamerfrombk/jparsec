@@ -10,7 +10,7 @@ public class TestCharacterParser {
 
   @Test
   public void testParser_MatchingSource() {
-    new CharacterParser("meow", 'm').parse()
+    new CharacterParser('m').parse("meow")
             .ifPresentOrElse(v -> {
               assertEquals((Character) 'm', v.data);
               assertEquals("eow", v.rest);
@@ -19,11 +19,11 @@ public class TestCharacterParser {
 
   @Test
   public void testParser_NonMatchingSource() {
-    assertTrue(new CharacterParser("foo", 'm').parse().isEmpty());
+    assertTrue(new CharacterParser('m').parse("foo").isEmpty());
   }
 
   @Test
   public void testParser_EmptySource() {
-    assertTrue(new CharacterParser("", 'm').parse().isEmpty());
+    assertTrue(new CharacterParser('m').parse("").isEmpty());
   }
 }
