@@ -1,11 +1,9 @@
 package com.tamerontheweb.jparsec.parsers;
 
-import com.tamerontheweb.jparsec.Value;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -17,13 +15,7 @@ public class TestCountParser {
 
   @Before
   public void setUp() {
-    parser = new CountParser<>(3, src -> {
-      if (src.length() > 0 && Character.isDigit(src.charAt(0))) {
-        return Optional.of(new Value<>(src.charAt(0) - '0', src.substring(1)));
-      }
-
-      return Optional.empty();
-    });
+    parser = new CountParser<>(3, new DigitParser());
   }
 
   @Test
