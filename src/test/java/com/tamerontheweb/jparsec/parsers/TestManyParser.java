@@ -2,15 +2,19 @@ package com.tamerontheweb.jparsec.parsers;
 
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class TestManyParser {
 
+  private final Parser<List<String>> parser = new ManyParser<>(new StringParser("me"));
+
   @Test
   public void testParser_SingleMatchingSource() {
-    createParser("me").parse("meow")
+    parser.parse("meow")
             .ifPresentOrElse(v -> {
               assertEquals(1, v.data.size());
               assertEquals("me", v.data.stream().reduce("", String::join));
@@ -20,7 +24,7 @@ public class TestManyParser {
 
   @Test
   public void testParser_ManyMatchingSource() {
-    createParser("me").parse("mememeow")
+    parser.parse("mememeow")
             .ifPresentOrElse(v -> {
               assertEquals(3, v.data.size());
               assertEquals("mememe", v.data.stream().reduce("", String::concat));
@@ -29,17 +33,14 @@ public class TestManyParser {
   }
 
   @Test
-  public void testParser_NoMatchingSource() {
-    assertTrue(createParser("q").parse("123").isEmpty());
-  }
+  public void testParser_UnmatchedSource() {
+    List<String> sources = List.of(
+            "baz"
+            , ""
+    );
 
-  @Test
-  public void testParser_EmptySource() {
-    assertTrue(createParser("m").parse("").isEmpty());
+    for (String source : sources) {
+      assertTrue(parser.parse(source).isEmpty());
+    }
   }
-
-  private ManyParser<String> createParser(String needle) {
-    return new ManyParser<>(new StringParser(needle));
-  }
-
 }

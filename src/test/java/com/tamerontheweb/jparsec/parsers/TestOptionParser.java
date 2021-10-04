@@ -1,6 +1,5 @@
 package com.tamerontheweb.jparsec.parsers;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
@@ -10,12 +9,7 @@ import static org.junit.Assert.fail;
 
 public class TestOptionParser {
 
-  private Parser<String> parser;
-
-  @Before
-  public void setUp() {
-    parser = new OptionParser<>("kitty", new StringParser("meow"));
-  }
+  private final Parser<String> parser = new OptionParser<>("kitty", new StringParser("meow"));
 
   @Test
   public void testParser_MatchingSource() {

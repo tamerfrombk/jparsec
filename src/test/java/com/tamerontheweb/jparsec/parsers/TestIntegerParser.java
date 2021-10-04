@@ -2,15 +2,19 @@ package com.tamerontheweb.jparsec.parsers;
 
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class TestIntegerParser {
 
+  private final Parser<Integer> parser = new IntegerParser();
+
   @Test
   public void testParser_MatchingSource() {
-    new IntegerParser().parse("12a")
+    parser.parse("12a")
             .ifPresentOrElse(v -> {
               assertEquals((Integer) 12, v.data);
               assertEquals("a", v.rest);
@@ -19,7 +23,7 @@ public class TestIntegerParser {
 
   @Test
   public void testParser_AllMatchingSource() {
-    new IntegerParser().parse("12")
+    parser.parse("12")
             .ifPresentOrElse(v -> {
               assertEquals((Integer) 12, v.data);
               assertEquals("", v.rest);
@@ -27,13 +31,14 @@ public class TestIntegerParser {
   }
 
   @Test
-  public void testParser_NonMatchingSource() {
-    assertTrue(new IntegerParser().parse("foo").isEmpty());
-  }
+  public void testParser_UnmatchedSource() {
+    List<String> sources = List.of(
+            "baz"
+            , ""
+    );
 
-  @Test
-  public void testParser_EmptySource() {
-    assertTrue(new IntegerParser().parse("").isEmpty());
+    for (String source : sources) {
+      assertTrue(parser.parse(source).isEmpty());
+    }
   }
-
 }

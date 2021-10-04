@@ -1,6 +1,5 @@
 package com.tamerontheweb.jparsec.parsers;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
@@ -11,12 +10,7 @@ import static org.junit.Assert.fail;
 
 public class TestCountParser {
 
-  private Parser<List<Integer>> parser;
-
-  @Before
-  public void setUp() {
-    parser = new CountParser<>(3, new DigitParser());
-  }
+  private final Parser<List<Integer>> parser = new CountParser<>(3, new DigitParser());
 
   @Test
   public void testParser_MatchingSource() {
@@ -33,13 +27,15 @@ public class TestCountParser {
   }
 
   @Test
-  public void testParser_NonMatchingSource() {
-    assertTrue(parser.parse("foo").isEmpty());
-  }
+  public void testParser_UnmatchedSource() {
+    List<String> sources = List.of(
+            "foo"
+            , ""
+    );
 
-  @Test
-  public void testParser_EmptySource() {
-    assertTrue(parser.parse("").isEmpty());
+    for (String source : sources) {
+      assertTrue(parser.parse(source).isEmpty());
+    }
   }
 
 }
